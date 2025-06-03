@@ -1,11 +1,11 @@
 import React from 'react'
 import NavBar from '../../components/layout/NavBar'
-// import Bg1 from '../../assets/photo/bg_1.png'
 import Bg2 from '../../assets/photo/bg_2.png'
 import Bg3 from '../../assets/photo/bg_3.png'
 import SAT_cover from '../../assets/photo/sat_cover.png'
 import AboutUs from '../../components/layout/AboutUs'
 import Events from '../../components/layout/Events'
+import Footer from '../../components/layout/Footer'
  
 function Welcome() {
   return (
@@ -24,6 +24,7 @@ function Welcome() {
       <AboutUs/>
       <Events/>
 
+      <Footer/>
     </div>
   )
 }
