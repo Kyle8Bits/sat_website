@@ -6,7 +6,7 @@ export default function Events() {
     <div className="bg-white w-full min-h-fit p-10">
       <h1 className="text-3xl font-bold text-[#070758] text-center mb-3">What we do?</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
         <EventCard
           name="RMIT Experience Day 2024"
           date="Sunday, 1st December 2024"

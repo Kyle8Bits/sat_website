@@ -18,7 +18,7 @@ function Welcome() {
     </div>
 
      <div className="w-full h-screen flex items-center justify-center relative">
-      <img src={SAT_cover} alt="" />
+      <img className='w-[90%]' src={SAT_cover} alt="" />
     </div>
 
       <AboutUs/>
