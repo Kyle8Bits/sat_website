@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import { loginUser, registerUser } from './controllers/authentication';
 
 const router = express.Router();
 
 router.get('/user', (req, res) => {
-    try{
+    try {
         res.status(200).json({
             message: 'User Kyle'
         });
@@ -14,4 +15,7 @@ router.get('/user', (req, res) => {
     }
 });
 
-module.exports = router;
+router.post('/login', loginUser);
+router.post('/register', registerUser);
+
+export default router;

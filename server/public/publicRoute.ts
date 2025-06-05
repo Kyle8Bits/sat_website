@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    try{
+    try {
         res.status(200).json({
             message: 'Welcome to the public API route!'
         });
@@ -14,4 +14,4 @@ router.get('/', (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
