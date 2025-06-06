@@ -1,53 +1,51 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 
 // Test
-const dataBase = {
-    email: "Test",
-    password: "123"
-}
+type userObject = {
+    email: string;
+    password: string;
+};
+
+const userTestArray: userObject[] = [{ email: "Test", password: "123" }];
 
 const sampleUser = {
     email: "SAT",
     password: "admin123"
-}
+};
+
+userTestArray.push(sampleUser);
 
 const loginUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = req.body;
+        const user = userTestArray.find(user => user.email === email);
 
         if (!(email) || !(password)) {
-            res.status(400).json({
-                message: 'Please fill out all fields'
-            });
+            res.status(400).json({ message: 'Please fill out all fields' });
             return;
         }
 
-        if (email === sampleUser.email && password === sampleUser.password) {
-            res.status(200).json({
-                message: 'Welcome admin'
-            });
+        if (!user) {
+            res.status(400).json({ message: 'User not found' });
             return;
         }
 
-        if (!(email === sampleUser.email)) {
-            res.status(400).json({
-                message: 'User not found!'
-            });
+        if (user.password !== password) {
+            res.status(400).json({ message: 'Incorrect password' });
             return;
         }
 
-        if (!(password === sampleUser.password)) {
-            res.status(400).json({
-                message: 'Incorrect password'
-            });
+        if (user.email === sampleUser.email && password === sampleUser.password) {
+            res.status(200).json({ message: 'Welcome admin' });
             return;
         }
 
-        res.status(200).json({
-            message: 'Login successful'
-        });
-        return;
+        if (await bcrypt.compare(password, user.password)) {
+            res.status(200).json({ message: 'Login successful' });
+            return;
+        }
 
     } catch (error) {
         // console.error('Error in public route:', error);
@@ -55,36 +53,32 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
         return;
 
     }
-}
+};
 
 const registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password, passwordConfirm } = req.body;
+        const user = userTestArray.find(user => user.email === email);
 
         if (!(email) || !(password) || !(passwordConfirm)) {
-            res.status(400).json({
-                message: 'Please fill out all fields'
-            });
+            res.status(400).json({ message: 'Please fill out all fields' });
+            return;
+        }
+
+        if (user) {
+            res.status(400).json({ message: 'Email already used' });
             return;
         }
 
         if (password !== passwordConfirm) {
-            res.status(400).json({
-                message: 'Passwords are different'
-            });
+            res.status(400).json({ message: 'Passwords are different' });
             return;
         }
 
-        if (email === sampleUser.email) {
-            res.status(400).json({
-                message: 'Email already used'
-            });
-            return;
-        }
-
-        res.status(200).json({
-            message: 'Account created'
-        });
+        const hashPassword = await bcrypt.hash(password, 10);
+        const newUser = { email: email, password: hashPassword };
+        res.status(200).json({ message: 'Account created' });
+        userTestArray.push(newUser);
         return;
 
     } catch (error) {
@@ -93,7 +87,7 @@ const registerUser = async (req: Request, res: Response): Promise<void> => {
         return;
 
     }
-}
+};
 
 export { loginUser, registerUser };
 

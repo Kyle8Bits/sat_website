@@ -3,7 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import publicRoute from './public/publicRoute';
 import privateRoute from './private/privateRoute';
-import { Request, Response, NextFunction } from 'express';
+// import { Request, Response, NextFunction } from 'express';
 
 const app = express();
 
