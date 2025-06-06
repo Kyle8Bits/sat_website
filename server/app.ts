@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import publicRoute from './public/publicRoute';
 import privateRoute from './private/privateRoute';
+import handleJsonError from './private/middleware/errorHandler';
 // import { Request, Response, NextFunction } from 'express';
 
 const app = express();
@@ -12,6 +13,8 @@ app.use(express.json());
 
 app.use('/', publicRoute);
 app.use('/', privateRoute);
+
+app.use(handleJsonError);
 
 app.listen(1414, () => {
     console.log('Server is running on port 1414');

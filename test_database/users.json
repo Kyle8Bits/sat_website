@@ -1,0 +1,12 @@
+[
+  { "email": "alice@example.com", "password": "alice123" },
+  { "email": "bob@example.com", "password": "bobSecure" },
+  { "email": "carol@example.com", "password": "carol321" },
+  { "email": "dan@example.com", "password": "d4np4ss" },
+  { "email": "eve@example.com", "password": "evelove" },
+  { "email": "frank@example.com", "password": "frank00" },
+  { "email": "grace@example.com", "password": "graceful" },
+  { "email": "heidi@example.com", "password": "h3idi" },
+  { "email": "ivan@example.com", "password": "ivanpass" },
+  { "email": "judy@example.com", "password": "judy123" }
+]
