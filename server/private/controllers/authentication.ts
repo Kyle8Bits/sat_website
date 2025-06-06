@@ -1,21 +1,36 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-
-// Test
-type userObject = {
-    email: string;
-    password: string;
-};
-
-const userTestArray: userObject[] = [{ email: "Test", password: "123" }];
+import {UserObject} from '../models/User'
+import fetchUsers from '../utils/fetchData';
+import { saveUser } from '../utils/registerUser';
 
 const sampleUser = {
     email: "SAT",
     password: "admin123"
 };
 
-userTestArray.push(sampleUser);
+// export const getAllUsers = async (req: Request, res: Response) => {
+//     try {
+//         const users = await fetchUsers();
+//         res.status(200).json({ message: 'Fetch successful', users });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Fetch failed' });
+//     }
+// };
+
+let userTestArray: UserObject[] = [];
+
+// Populate it once at module load
+(async () => { 
+    try {
+        userTestArray = await fetchUsers();
+        console.log(userTestArray);
+        userTestArray.push(sampleUser); // Add admin
+    } catch (error) {
+        console.error(error);
+    }
+})();
 
 const loginUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -32,7 +47,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        if (user.password !== password) {
+        if (!(await bcrypt.compare(password, user.password))) {
             res.status(400).json({ message: 'Incorrect password' });
             return;
         }
@@ -47,12 +62,16 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
+        res.status(200).json({ message: 'LastTest' });
+
     } catch (error) {
         // console.error('Error in public route:', error);
         res.status(500).json({ error: 'Internal Server Error' });
         return;
 
     }
+
+
 };
 
 const registerUser = async (req: Request, res: Response): Promise<void> => {
@@ -77,8 +96,13 @@ const registerUser = async (req: Request, res: Response): Promise<void> => {
 
         const hashPassword = await bcrypt.hash(password, 10);
         const newUser = { email: email, password: hashPassword };
+
+        console.log(hashPassword);
         res.status(200).json({ message: 'Account created' });
+        
         userTestArray.push(newUser);
+        saveUser(newUser);
+
         return;
 
     } catch (error) {

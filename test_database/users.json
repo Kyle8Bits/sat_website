@@ -1,12 +1,10 @@
 [
-  { "email": "alice@example.com", "password": "alice123" },
-  { "email": "bob@example.com", "password": "bobSecure" },
-  { "email": "carol@example.com", "password": "carol321" },
-  { "email": "dan@example.com", "password": "d4np4ss" },
-  { "email": "eve@example.com", "password": "evelove" },
-  { "email": "frank@example.com", "password": "frank00" },
-  { "email": "grace@example.com", "password": "graceful" },
-  { "email": "heidi@example.com", "password": "h3idi" },
-  { "email": "ivan@example.com", "password": "ivanpass" },
-  { "email": "judy@example.com", "password": "judy123" }
+  {
+    "email": "alice@example.com",
+    "password": "$2b$10$gk6V/aj5SVnepP.4N5MdjOa.4zhaObyG7NMiU9mhFYE73oMMQZafe"
+  },
+  {
+    "email": "bob@example.com",
+    "password": "$2b$10$LPUcb7EaXStQ8zpRmQc1YeF1EIH23NTgp.87X0w/EkNPWupjyVjy."
+  }
 ]
