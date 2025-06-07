@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import Bg2 from '../../assets/photo/bg_2.png'
+import Bg2 from "../../assets/photo/bg_2.png";
+import { handleLogin } from "./LoginAPI";
 
 function Login() {
   const [isActive, setIsActive] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <div className="bg-transparent flex flex-col items-center justify-center min-h-screen">
-     
       <div className="absolute inset-0 -z-1 flex flex-col">
         <img src={Bg2} alt="" className="w-full object-cover h-full" />
       </div>
@@ -41,21 +43,9 @@ function Login() {
               </a>
             </div>
             <span className="text-sm mb-4">or use RMIT email for registration</span>
-            <input
-              type="text"
-              placeholder="Name"
-              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
-            />
+            <input type="text" placeholder="Name" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
+            <input type="email" placeholder="Email" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
+            <input type="password" placeholder="Password" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
             <button
               type="submit"
               className="mt-4 px-12 py-3 bg-[#C60000] border-2 border-[#C60000] hover:bg-white hover:border-black hover:text-black text-white rounded-lg uppercase tracking-wide font-semibold"
@@ -68,12 +58,16 @@ function Login() {
         {/* Sign In Form */}
         <div
           className={`sign-in absolute top-0 left-0 h-full w-1/2 bg-white transition-all duration-600 ${
-            isActive
-              ? "translate-x-full opacity-0 -z-10"
-              : "translate-x-0 opacity-100 z-50"
+            isActive ? "translate-x-full opacity-0 -z-10" : "translate-x-0 opacity-100 z-50"
           }`}
         >
-          <form className="flex flex-col items-center justify-center h-full px-10">
+          <form
+            className="flex flex-col items-center justify-center h-full px-10"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              await handleLogin(email, password);
+            }}
+          >
             <h1 className="text-3xl font-bold mb-6">Sign In</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
@@ -94,16 +88,15 @@ function Login() {
               type="email"
               placeholder="Email"
               className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setEmail(e.target.value)}
             />
             <input
               type="password"
               placeholder="Password"
               className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <a
-              href="#"
-              className="self-end mb-4 text-blue-600 hover:underline text-sm"
-            >
+            <a href="#" className="self-end mb-4 text-blue-600 hover:underline text-sm">
               Forgot password?
             </a>
             <button

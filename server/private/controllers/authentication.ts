@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User, { IUser, UserRole, UserGroup } from '../models/User'; // adjust the import path as needed
+import { createUser } from '../middleware/userServices';
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
-        const {password, passwordConfirm, email, nickname, phone, group, role } = req.body;
+        const { password, passwordConfirm, email, nickname, phone, group, role } = req.body;
 
         // Check for missing fields
         if (!password || !passwordConfirm || !email || !nickname || !group || !role) {
@@ -35,7 +36,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
             role,
         });
 
-        await newUser.save();
+        await createUser(newUser);
 
         res.status(201).json({ message: 'Account created successfully' });
     } catch (error) {
@@ -60,7 +61,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const isMatch = await user.comparePassword(password); // 🔐 Call method
+        const isMatch = await bcrypt.compare(password, user.password); // 🔐 Call method
         if (!isMatch) {
             res.status(400).json({ message: 'Incorrect password' });
             return;

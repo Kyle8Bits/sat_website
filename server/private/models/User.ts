@@ -24,7 +24,6 @@ export interface IUser extends Document {
     group: UserGroup;
     role: UserRole;
     createdAt: Date;
-    comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
 const UserSchema: Schema<IUser> = new Schema({
@@ -35,7 +34,7 @@ const UserSchema: Schema<IUser> = new Schema({
     phone: { type: String, unique: true },
 
     group: { type: Number, required: true, enum: Object.values(UserGroup).filter(v => typeof v === 'number') },
-    role: { type: String, required: true, enum: Object.values(UserRole)},
+    role: { type: String, required: true, enum: Object.values(UserRole) },
 
     createdAt: { type: Date, default: Date.now },
 }, { collection: 'user' });
@@ -52,10 +51,6 @@ UserSchema.pre<IUser>('save', async function (next) {
     }
     next();
 });
-
-UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    return bcrypt.compare(candidatePassword, this.password);
-};
 
 const User = mongoose.model<IUser>('User', UserSchema);
 export default User;
