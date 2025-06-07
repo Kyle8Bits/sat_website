@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '../src/style/App.css'
-import { ThemeProvider } from './components/hooks/theme/ThemeContext';
+import { ThemeProvider } from './hooks/theme/ThemeContext';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 

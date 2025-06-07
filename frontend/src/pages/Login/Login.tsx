@@ -1,89 +1,163 @@
-import React from 'react'
+import React, { useState } from "react";
+import Bg2 from '../../assets/photo/bg_2.png'
 
 function Login() {
-   return (
-    <>
-      {/*
-        This example requires updating your template:
+  const [isActive, setIsActive] = useState(false);
 
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            alt="Your Company"
-            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-            className="mx-auto h-10 w-auto"
-          />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
+  return (
+    <div className="bg-transparent flex flex-col items-center justify-center min-h-screen">
+     
+      <div className="absolute inset-0 -z-1 flex flex-col">
+        <img src={Bg2} alt="" className="w-full object-cover h-full" />
+      </div>
+
+      <div
+        id="container"
+        className={`relative w-full max-w-4xl min-h-[480px] bg-white rounded-[40px] shadow-lg overflow-hidden transition-all duration-600 ${
+          isActive ? "active" : ""
+        }`}
+      >
+        {/* Sign Up Form */}
+        <div
+          className={`sign-up absolute top-0 left-0 h-full w-1/2 transition-all duration-600 ${
+            isActive ? "translate-x-full opacity-100 z-50" : "opacity-0 z-10"
+          }`}
+        >
+          <form className="flex flex-col items-center justify-center h-full px-10">
+            <h1 className="text-3xl font-bold mb-6">Create Account</h1>
+            {/* social icons */}
+            <div className="flex gap-3 mb-6">
+              <a href="#" className="text-blue-600">
+                <i className="fab fa-facebook"></i>
+              </a>
+              <a href="#" className="text-pink-500">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a href="#" className="text-red-500">
+                <i className="fab fa-google"></i>
+              </a>
+              <a href="#" className="text-gray-700">
+                <i className="fab fa-github"></i>
+              </a>
+            </div>
+            <span className="text-sm mb-4">or use RMIT email for registration</span>
+            <input
+              type="text"
+              placeholder="Name"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+            />
+            <button
+              type="submit"
+              className="mt-4 px-12 py-3 bg-[#C60000] border-2 border-[#C60000] hover:bg-white hover:border-black hover:text-black text-white rounded-lg uppercase tracking-wide font-semibold"
+            >
+              Sign Up
+            </button>
+          </form>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
+        {/* Sign In Form */}
+        <div
+          className={`sign-in absolute top-0 left-0 h-full w-1/2 bg-white transition-all duration-600 ${
+            isActive
+              ? "translate-x-full opacity-0 -z-10"
+              : "translate-x-0 opacity-100 z-50"
+          }`}
+        >
+          <form className="flex flex-col items-center justify-center h-full px-10">
+            <h1 className="text-3xl font-bold mb-6">Sign In</h1>
+            {/* social icons */}
+            <div className="flex gap-3 mb-6">
+              <a href="#" className="text-blue-600">
+                <i className="fab fa-facebook"></i>
+              </a>
+              <a href="#" className="text-pink-500">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a href="#" className="text-red-500">
+                <i className="fab fa-google"></i>
+              </a>
+              <a href="#" className="text-gray-700">
+                <i className="fab fa-github"></i>
+              </a>
             </div>
+            <input
+              type="email"
+              placeholder="Email"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+            />
+            <a
+              href="#"
+              className="self-end mb-4 text-blue-600 hover:underline text-sm"
+            >
+              Forgot password?
+            </a>
+            <button
+              type="submit"
+              className="mt-4 px-12 py-3 bg-[#070758] border-2 border-[#070758] hover:bg-white hover:border-black hover:text-black text-white rounded-lg uppercase tracking-wide font-semibold"
+            >
+              Sign In
+            </button>
+          </form>
+        </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
+        {/* Toggle Panel */}
+        <div
+          className={`toggle-container absolute top-0 left-1/2 w-1/2 h-full overflow-hidden rounded-[40px] z-50 transition-transform duration-600 ${
+            isActive ? "-translate-x-full" : "translate-x-0"
+          }`}
+        >
+          <div className="toggle bg-[#C60000] text-white relative left-[-100%] w-[200%] h-full flex transition-transform duration-600 transform translate-x-0">
+            {/* Left Panel */}
+            <div
+              className={`toggle-panel toggle-left w-1/2 h-full flex flex-col justify-center items-center px-8 text-center transition-transform duration-600 ${
+                isActive ? "translate-x-[100%]" : "translate-x-0"
+              }`}
+            >
+              <h1 className="text-4xl font-bold mb-4">Welcome SAT!</h1>
+              <p className="mb-8">If you already have an account</p>
               <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={() => setIsActive(false)}
+                className="bg-transparent border border-white px-12 py-3 rounded-lg uppercase font-semibold tracking-wide hover:bg-white hover:text-[#C60000] transition"
               >
-                Sign in
+                Sign In
               </button>
             </div>
-          </form>
 
-          <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?{' '}
-            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
-            </a>
-          </p>
+            {/* Right Panel */}
+            <div
+              className={`toggle-panel toggle-right bg-[#070758] w-1/2 h-full flex flex-col justify-center items-center px-8 text-center transition-transform duration-600 ${
+                isActive ? "translate-x-[200%]" : "translate-x-0"
+              }`}
+            >
+              <h1 className="text-4xl font-bold mb-4">Hello, SAT!</h1>
+              <p className="mb-8">If you don't have an account</p>
+              <button
+                onClick={() => setIsActive(true)}
+                className="bg-transparent border border-white px-12 py-3 rounded-lg uppercase font-semibold tracking-wide hover:bg-white hover:text-[#070758] transition"
+              >
+                Sign Up
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
-export default Login
+export default Login;
