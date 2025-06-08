@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Bg2 from "../../assets/photo/bg_2.png";
 
-const handleLogin = async (email: string, password: string, ): Promise<any> => {
+const handleLogin = async (email: string, password: string): Promise<any> => {
   try {
     const response = await fetch("http://localhost:1414/login", {
       method: "POST",
@@ -21,6 +21,43 @@ const handleLogin = async (email: string, password: string, ): Promise<any> => {
   }
 };
 
+const handleCheckEmail = async (email: string, password: string, passwordConfirm: string): Promise<any> => {
+  try {
+    const response = await fetch("http://localhost:1414/checkemail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, passwordConfirm }),
+    });
+
+    const data = await response.json();
+    console.log("Server response:", data);
+    return data;
+  } catch (error) {
+    console.error("Register failed:", error);
+    throw error;
+  }
+};
+
+const handleRegister = async (email: string, password: string, nickname: string, phone: string, group: number, role: string): Promise<any> => {
+  try {
+    const response = await fetch("http://localhost:1414/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, nickname, phone, group, role }),
+    });
+
+    const data = await response.json();
+    console.log("Server response:", data);
+    return data;
+  } catch (error) {
+    console.error("Register failed:", error);
+    throw error;
+  }
+};
 
 function Login() {
   const [isActive, setIsActive] = useState(false);
@@ -57,7 +94,6 @@ function Login() {
       return () => clearTimeout(timeout); // Cleanup
     }
   }, [auth, navigate]);
-
 
   return (
     <div className="bg-transparent flex flex-col items-center justify-center min-h-screen">
@@ -113,11 +149,7 @@ function Login() {
             isActive ? "translate-x-full opacity-0 -z-10" : "translate-x-0 opacity-100 z-50"
           }`}
         >
-          <form
-            className="flex flex-col items-center justify-center h-full px-10"
-            onSubmit={onSubmit}
-          >
-    
+          <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={onSubmit}>
             <h1 className="text-3xl font-bold mb-6">Sign In</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
