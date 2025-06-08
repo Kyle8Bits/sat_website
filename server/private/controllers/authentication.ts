@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User, { IUser, UserRole, UserGroup } from '../models/User'; // adjust the import path as needed
-import { createUser } from '../middleware/userServices';
+import { createUser } from './userServices';
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -61,7 +61,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const isMatch = await bcrypt.compare(password, user.password); // 🔐 Call method
+        const isMatch = await bcrypt.compare(password, user.password); // Call method
         if (!isMatch) {
             res.status(400).json({ message: 'Incorrect password' });
             return;
