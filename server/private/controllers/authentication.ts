@@ -51,24 +51,28 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            res.status(400).json({ message: 'Please fill out all fields' });
+            res.status(400).json({ success: false,message: 'Please fill out all fields' });
             return;
         }
 
         const user = await User.findOne({ email });
         if (!user) {
-            res.status(400).json({ message: 'User not found' });
+            res.status(400).json({success: false, message: 'User not found' });
             return;
         }
 
         const isMatch = await bcrypt.compare(password, user.password); // Call method
         if (!isMatch) {
-            res.status(400).json({ message: 'Incorrect password' });
+            res.status(400).json({ success: false,message: 'Incorrect password' });
             return;
         }
 
         // You can generate a JWT token here for auth (optional)
-        res.status(200).json({ message: 'Login successful', user: { id: user._id, role: user.role } });
+       res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            user: { id: user._id, role: user.role }
+        });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Internal Server Error' });

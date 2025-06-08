@@ -1,11 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Bg2 from "../../assets/photo/bg_2.png";
-import { handleLogin } from "./LoginAPI";
+
+const handleLogin = async (email: string, password: string, ): Promise<any> => {
+  try {
+    const response = await fetch("http://localhost:1414/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    console.log("Server response:", data);
+    return data;
+  } catch (error) {
+    console.error("Login failed:", error);
+    throw error;
+  }
+};
+
 
 function Login() {
   const [isActive, setIsActive] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+  const [auth, setAuth] = useState(false);
+
+  const navigate = useNavigate();
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await handleLogin(email, password);
+      if (result?.success) {
+        setAuth(true);
+        setError("");
+      } else {
+        setError(result?.message || "Invalid login");
+      }
+    } catch (err) {
+      setError("Network or server error");
+    }
+  };
+
+  useEffect(() => {
+    if (auth) {
+      // Delay optional: simulate animation or transition
+      const timeout = setTimeout(() => {
+        navigate("/dashboard"); // or your target route
+      }, 500); // Optional delay in ms
+
+      return () => clearTimeout(timeout); // Cleanup
+    }
+  }, [auth, navigate]);
+
 
   return (
     <div className="bg-transparent flex flex-col items-center justify-center min-h-screen">
@@ -43,9 +95,9 @@ function Login() {
               </a>
             </div>
             <span className="text-sm mb-4">or use RMIT email for registration</span>
-            <input type="text" placeholder="Name" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
             <input type="email" placeholder="Email" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
             <input type="password" placeholder="Password" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
+            <input type="password" placeholder="Confirm Password" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
             <button
               type="submit"
               className="mt-4 px-12 py-3 bg-[#C60000] border-2 border-[#C60000] hover:bg-white hover:border-black hover:text-black text-white rounded-lg uppercase tracking-wide font-semibold"
@@ -63,11 +115,9 @@ function Login() {
         >
           <form
             className="flex flex-col items-center justify-center h-full px-10"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await handleLogin(email, password);
-            }}
+            onSubmit={onSubmit}
           >
+    
             <h1 className="text-3xl font-bold mb-6">Sign In</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
@@ -105,6 +155,8 @@ function Login() {
             >
               Sign In
             </button>
+            {error && <p className="text-red-600 mt-2">{error}</p>}
+            {auth && <p className="text-green-600 mt-2">Login successful!</p>}
           </form>
         </div>
 

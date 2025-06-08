@@ -11,10 +11,9 @@ function Welcome() {
   return (
     <div>
       <NavBar/>
-     <div className="absolute inset-0 -z-1 flex flex-col">
+    <div className="absolute inset-0 -z-1 flex flex-col">
       <img src={Bg2} alt="" className="w-full object-cover h-full" />
       <img src={Bg3} alt="" className="w-full object-cover h-full" />
-
     </div>
 
      <div className="w-full h-screen flex items-center justify-center relative">
