@@ -7,7 +7,12 @@ import allowedEmail from '../models/Email';
 export const checkAllowedEmail = async (req: Request, res: Response): Promise<void> => {
     try {
         const { password, passwordConfirm, email } = req.body;
-        const isAllowed = await allowedEmail.findOne({ email });
+        const normalizedEmail = email.trim().toLowerCase();
+        const isAllowed = await allowedEmail.findOne({ email: normalizedEmail });
+        console.log(await allowedEmail.find());
+        console.log(email);
+        console.log(password);
+        console.log(isAllowed);
 
         // Check if passwords match
         if (password !== passwordConfirm) {

@@ -40,25 +40,6 @@ const handleCheckEmail = async (email: string, password: string, passwordConfirm
   }
 };
 
-const handleRegister = async (email: string, password: string, nickname: string, phone: string, group: number, role: string): Promise<any> => {
-  try {
-    const response = await fetch("http://localhost:1414/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, nickname, phone, group, role }),
-    });
-
-    const data = await response.json();
-    console.log("Server response:", data);
-    return data;
-  } catch (error) {
-    console.error("Register failed:", error);
-    throw error;
-  }
-};
-
 function Login() {
   const [isActive, setIsActive] = useState(false);
   const [email, setEmail] = useState("");

@@ -10,8 +10,7 @@ const UserSchema: Schema<ISATEmail> = new Schema(
     {
         email: { type: String, required: true, unique: true },
     },
-    { timestamps: true } // adds createdAt and updatedAt fields
-);
+    { collection: 'sat_email' });
 
 // Create and export the model
 const allowedEmail = mongoose.model<ISATEmail>('sat_email', UserSchema);
