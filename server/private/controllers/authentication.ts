@@ -16,11 +16,11 @@ export const checkAllowedEmail = async (req: Request, res: Response): Promise<vo
         }
 
         if (isAllowed) {
-            res.status(200).json({ status: true, message: 'email is allowed' });
+            res.status(200).json({ success: true, message: 'email is allowed' });
             return;
         }
 
-        res.status(400).json({ status: false, message: 'email not allowed' });
+        res.status(400).json({ success: false, message: 'email not allowed' });
         return;
     } catch (error) {
         console.error('Register error:', error);

@@ -63,13 +63,16 @@ function Login() {
   const [isActive, setIsActive] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const [error, setError] = useState("");
   const [auth, setAuth] = useState(false);
 
+  const [allowedEmail, setAllowedEmail] = useState(false);
+
   const navigate = useNavigate();
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const submitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const result = await handleLogin(email, password);
@@ -83,7 +86,6 @@ function Login() {
       setError("Network or server error");
     }
   };
-
   useEffect(() => {
     if (auth) {
       // Delay optional: simulate animation or transition
@@ -94,6 +96,26 @@ function Login() {
       return () => clearTimeout(timeout); // Cleanup
     }
   }, [auth, navigate]);
+
+  const submitEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await handleCheckEmail(email, password, passwordConfirm);
+      if (result?.success) {
+        setAllowedEmail(true);
+        setError("");
+      } else {
+        setError(result?.message || "Invalid login");
+      }
+    } catch (err) {
+      setError("Network or server error");
+    }
+  };
+  useEffect(() => {
+    if (allowedEmail) {
+      navigate("/registration"); // or your target route
+    }
+  }, [allowedEmail, navigate]);
 
   return (
     <div className="bg-transparent flex flex-col items-center justify-center min-h-screen">
@@ -113,7 +135,7 @@ function Login() {
             isActive ? "translate-x-full opacity-100 z-50" : "opacity-0 z-10"
           }`}
         >
-          <form className="flex flex-col items-center justify-center h-full px-10">
+          <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={submitEmail}>
             <h1 className="text-3xl font-bold mb-6">Create Account</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
@@ -131,9 +153,24 @@ function Login() {
               </a>
             </div>
             <span className="text-sm mb-4">or use RMIT email for registration</span>
-            <input type="email" placeholder="Email" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
-            <input type="password" placeholder="Password" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
-            <input type="password" placeholder="Confirm Password" className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none" />
+            <input
+              type="email"
+              placeholder="Email"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+            />
             <button
               type="submit"
               className="mt-4 px-12 py-3 bg-[#C60000] border-2 border-[#C60000] hover:bg-white hover:border-black hover:text-black text-white rounded-lg uppercase tracking-wide font-semibold"
@@ -149,7 +186,7 @@ function Login() {
             isActive ? "translate-x-full opacity-0 -z-10" : "translate-x-0 opacity-100 z-50"
           }`}
         >
-          <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={onSubmit}>
+          <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={submitLogin}>
             <h1 className="text-3xl font-bold mb-6">Sign In</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
