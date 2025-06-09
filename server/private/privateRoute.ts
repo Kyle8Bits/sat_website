@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkAllowedEmail, loginUser, registerUser } from './controllers/authentication';
+import { checkAllowedEmail, loginUser, registerUser,submitAllowedEmail } from './controllers/authentication';
 
 const router = express.Router();
 
@@ -18,5 +18,6 @@ router.get('/user', (req, res) => {
 router.post('/login', loginUser);
 router.post('/register', registerUser);
 router.post('/checkemail', checkAllowedEmail);
+router.post('/submit-email', submitAllowedEmail);
 
 export default router;

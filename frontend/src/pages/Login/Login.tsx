@@ -67,6 +67,7 @@ function Login() {
       setError("Network or server error");
     }
   };
+  
   useEffect(() => {
     if (auth) {
       // Delay optional: simulate animation or transition

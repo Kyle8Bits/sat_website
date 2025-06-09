@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import User, { IUser, UserRole, UserGroup } from '../models/User'; // adjust the import path as needed
 import { createUser } from './userServices';
 import allowedEmail from '../models/Email';
+import { addEmail } from './adminServices';
 
 export const checkAllowedEmail = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -99,6 +100,24 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         });
     } catch (error) {
         console.error('Login error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+export const submitAllowedEmail = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { email } = req.body;
+        console.log(email);
+
+        const newEmail = new allowedEmail({
+            email
+        });
+        await addEmail(newEmail);
+
+        res.status(400).json({ success: false, message: 'email added' });
+        return;
+    } catch (error) {
+        console.error('Register error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

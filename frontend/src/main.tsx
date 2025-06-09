@@ -10,6 +10,7 @@ import NotFound from './pages/NotFound';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Registration from './pages/Registration/Registration';
+import Admin from './pages/Admin/Admin';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,13 @@ const router = createBrowserRouter([
     path: "/registration",
     element: <Registration />,
     errorElement: <NotFound />,
+  },  
+  {
+    path: "/admin",
+    element: <Admin />,
+    errorElement: <NotFound />,
   }
+  
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
