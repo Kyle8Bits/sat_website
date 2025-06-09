@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User, { IUser, UserRole, UserGroup } from '../models/User'; // adjust the import path as needed
-import { createUser } from './userServices';
+// import { createUser } from './userServices';
 import allowedEmail from '../models/Email';
 import { addEmail } from './adminServices';
 
 export const checkAllowedEmail = async (req: Request, res: Response): Promise<void> => {
     try {
         const { password, passwordConfirm, email } = req.body;
-        const normalizedEmail = email.trim().toLowerCase();
-        const isAllowed = await allowedEmail.findOne({ email: normalizedEmail });
+        const isAllowed = await allowedEmail.findOne({ email });
         console.log(await allowedEmail.find());
         console.log(email);
         console.log(password);
@@ -61,7 +60,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
             role,
         });
 
-        await createUser(newUser);
+        await newUser.save();
 
         res.status(201).json({ message: 'Account created successfully' });
     } catch (error) {
@@ -107,14 +106,18 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 export const submitAllowedEmail = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email } = req.body;
-        console.log(email);
+        if (!email) {
+            res.status(400).json({ success: false, message: 'add an email' });
+
+        }
 
         const newEmail = new allowedEmail({
             email
         });
-        await addEmail(newEmail);
+        // await addEmail(newEmail);
+        await newEmail.save();
 
-        res.status(400).json({ success: false, message: 'email added' });
+        res.status(200).json({ success: true, message: 'email added' });
         return;
     } catch (error) {
         console.error('Register error:', error);

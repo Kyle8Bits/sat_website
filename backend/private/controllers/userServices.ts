@@ -1,10 +1,10 @@
 import User, { IUser } from '../models/User';
 import bcrypt from 'bcrypt';
 
-export const createUser = async (data: IUser): Promise<void> => {
-    const user = new User(data);
-    user.save();
-};
+// export const createUser = async (data: IUser): Promise<void> => {
+//     const user = new User(data);
+//     user.save();
+// };
 
 export const deleteUser = async (userId: string): Promise<boolean> => {
     const existingUser = await User.findById(userId);

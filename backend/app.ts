@@ -13,13 +13,13 @@ const app = express();
 
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
+app.use(handleJsonError);
 
 connectDB();
 
 app.use('/', publicRoute);
 app.use('/', privateRoute);
 
-app.use(handleJsonError);
 
 app.listen(1414, () => {
     console.log('Server is running on port 1414');
