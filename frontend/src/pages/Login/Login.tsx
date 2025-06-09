@@ -94,7 +94,12 @@ function Login() {
   };
   useEffect(() => {
     if (allowedEmail) {
-      navigate("/registration"); // or your target route
+      navigate("/registration", {
+        state: {
+          email,
+          password,
+        },
+      }); // or your target route
     }
   }, [allowedEmail, navigate]);
 

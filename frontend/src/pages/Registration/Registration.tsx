@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Bg3 from "../../assets/photo/bg_3.png";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const handleRegister = async (email: string, password: string, nickname: string, phone: string, group: number, role: string): Promise<any> => {
+const handleRegister = async (email: string, password: string, nickname: string, group: number, role: string, phone?: string): Promise<any> => {
   try {
     const response = await fetch("http://localhost:1414/register", {
       method: "POST",
@@ -22,6 +24,34 @@ const handleRegister = async (email: string, password: string, nickname: string,
 
 function Registration() {
   const [preview, setPreview] = useState<string | null>(null);
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [phone, setPhone] = useState(""); // Optional
+  const [group, setGroup] = useState(1); // Default group index (adjust as needed)
+  const [role, setRole] = useState(""); // Default role (adjust to your roles)
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const { email, password } = location.state || {};
+
+  const submitRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await handleRegister(email, password, nickname, group, role, phone);
+      if (result?.success) {
+        useEffect(() => {
+          navigate("/profile"); // or your target route
+        }, [navigate]);
+      } else {
+        setError(result?.message || "Invalid login");
+        console.log(error);
+      }
+    } catch (err) {
+      setError("Network or server error");
+    }
+  };
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,7 +77,7 @@ function Registration() {
       </div>
 
       <div className="p-[20px] rounded-lg w-[40%] h-fit bg-white">
-        <form className="flex flex-col items-center justify-center h-full px-10">
+        <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={submitRegister}>
           <h1 className="flex text-3xl mb-10 mt-4 font-bold mb-6">Welcome To SAT</h1>
 
           {/* Profile Photo Upload Section */}
@@ -76,14 +106,20 @@ function Registration() {
             <label className="ml-[1px] text-sm font-bold text-gray-500">
               Your Nickname <span className="text-red-500">*</span>
             </label>
-            <input required type="text" placeholder="Username. Ex. Maryn, Pan, etc." className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none" />
+            <input
+              required
+              type="text"
+              placeholder="Username. Ex. Maryn, Pan, etc."
+              className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setNickname(e.target.value)}
+            />
           </div>
 
           <div className="w-full flex flex-col">
             <label className="ml-[1px] text-sm font-bold text-gray-500">
               Your Role <span className="text-red-500">*</span>
             </label>
-            <select required className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none" defaultValue="">
+            <select required className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none" defaultValue="" onChange={(e) => setRole(e.target.value)}>
               <option value="" disabled hidden>
                 Select Role
               </option>
@@ -97,16 +133,21 @@ function Registration() {
             <label className="ml-[1px] text-sm font-bold text-gray-500">
               Your Group <span className="text-red-500">*</span>
             </label>
-            <select required className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none" defaultValue="">
+            <select
+              required
+              className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              defaultValue=""
+              onChange={(e) => setGroup(parseInt(e.target.value))}
+            >
               <option value="" disabled hidden>
                 Select Group
               </option>
-              <option value="Group 1">Group 1</option>
-              <option value="Group 2">Group 2</option>
-              <option value="Group 3">Group 3</option>
-              <option value="Group 4">Group 4</option>
-              <option value="Group 5">Group 5</option>
-              <option value="Group 6">Group 6</option>
+              <option value="1">Group 1</option>
+              <option value="2">Group 2</option>
+              <option value="3">Group 3</option>
+              <option value="4">Group 4</option>
+              <option value="5">Group 5</option>
+              <option value="6">Group 6</option>
             </select>
           </div>
 
@@ -114,7 +155,12 @@ function Registration() {
             <label className="ml-[1px] text-sm font-bold text-gray-500">
               Phone Number <span className="text-gray-400">(optional)</span>
             </label>
-            <input type="text" placeholder="Phone. Ex. 0912345678" className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none" />
+            <input
+              type="text"
+              placeholder="Phone. Ex. 0912345678"
+              className="mb-10 p-3 rounded-lg w-full bg-gray-100 outline-none"
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </div>
 
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300">
