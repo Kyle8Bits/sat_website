@@ -9,10 +9,10 @@ export const checkAllowedEmail = async (req: Request, res: Response): Promise<vo
     try {
         const { password, passwordConfirm, email } = req.body;
         const isAllowed = await allowedEmail.findOne({ email });
-        console.log(await allowedEmail.find());
-        console.log(email);
-        console.log(password);
-        console.log(isAllowed);
+        // console.log(await allowedEmail.find());
+        // console.log(email);
+        // console.log(password);
+        // console.log(isAllowed);
 
         // Check if passwords match
         if (password !== passwordConfirm) {
