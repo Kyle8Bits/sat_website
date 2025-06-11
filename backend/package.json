@@ -13,5 +13,8 @@
   },
   "scripts": {
     "dev": "npx nodemon app.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }
