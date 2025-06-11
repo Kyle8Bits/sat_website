@@ -5,10 +5,10 @@ import { ThemeProvider } from './hooks/theme/ThemeContext';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Welcome from './pages/Welcome/Welcome';
+import Welcome from './pages/Landing/Landing';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
+import DashboardStaff from './pages/Dashboard/DashboardStaff';
 import Registration from './pages/Registration/Registration';
 import Admin from './pages/Admin/Admin';
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
   ,
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <DashboardStaff />,
     errorElement: <NotFound />,
   }
   ,

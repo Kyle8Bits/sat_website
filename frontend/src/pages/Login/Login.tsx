@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Bg2 from "../../assets/photo/bg_2.png";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const handleLogin = async (email: string, password: string): Promise<any> => {
   try {
@@ -21,7 +22,11 @@ const handleLogin = async (email: string, password: string): Promise<any> => {
   }
 };
 
-const handleCheckEmail = async (email: string, password: string, passwordConfirm: string): Promise<any> => {
+const handleCheckEmail = async (
+  email: string,
+  password: string,
+  passwordConfirm: string
+): Promise<any> => {
   try {
     const response = await fetch("http://localhost:1414/checkemail", {
       method: "POST",
@@ -45,6 +50,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
   const [auth, setAuth] = useState(false);
@@ -52,9 +58,12 @@ function Login() {
   const [allowedEmail, setAllowedEmail] = useState(false);
 
   const navigate = useNavigate();
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   const submitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await handleLogin(email, password);
       if (result?.success) {
@@ -65,9 +74,12 @@ function Login() {
       }
     } catch (err) {
       setError("Network or server error");
+    } finally {
+      await delay(500);
+      setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     if (auth) {
       // Delay optional: simulate animation or transition
@@ -81,6 +93,7 @@ function Login() {
 
   const submitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await handleCheckEmail(email, password, passwordConfirm);
       if (result?.success) {
@@ -91,6 +104,9 @@ function Login() {
       }
     } catch (err) {
       setError("Network or server error");
+    } finally {
+      await delay(500);
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -122,7 +138,10 @@ function Login() {
             isActive ? "translate-x-full opacity-100 z-50" : "opacity-0 z-10"
           }`}
         >
-          <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={submitEmail}>
+          <form
+            className="flex flex-col items-center justify-center h-full px-10"
+            onSubmit={submitEmail}
+          >
             <h1 className="text-3xl font-bold mb-6">Create Account</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
@@ -139,7 +158,9 @@ function Login() {
                 <i className="fab fa-github"></i>
               </a>
             </div>
-            <span className="text-sm mb-4">or use RMIT email for registration</span>
+            <span className="text-sm mb-4">
+              or use RMIT email for registration
+            </span>
             <input
               type="email"
               placeholder="Email"
@@ -170,10 +191,15 @@ function Login() {
         {/* Sign In Form */}
         <div
           className={`sign-in absolute top-0 left-0 h-full w-1/2 bg-white transition-all duration-600 ${
-            isActive ? "translate-x-full opacity-0 -z-10" : "translate-x-0 opacity-100 z-50"
+            isActive
+              ? "translate-x-full opacity-0 -z-10"
+              : "translate-x-0 opacity-100 z-50"
           }`}
         >
-          <form className="flex flex-col items-center justify-center h-full px-10" onSubmit={submitLogin}>
+          <form
+            className="flex flex-col items-center justify-center h-full px-10"
+            onSubmit={submitLogin}
+          >
             <h1 className="text-3xl font-bold mb-6">Sign In</h1>
             {/* social icons */}
             <div className="flex gap-3 mb-6">
@@ -202,7 +228,10 @@ function Login() {
               className="mb-3 p-3 rounded-lg w-full bg-gray-100 outline-none"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <a href="#" className="self-end mb-4 text-blue-600 hover:underline text-sm">
+            <a
+              href="#"
+              className="self-end mb-4 text-blue-600 hover:underline text-sm"
+            >
               Forgot password?
             </a>
             <button
@@ -237,6 +266,11 @@ function Login() {
               >
                 Sign In
               </button>
+               {loading && (
+                <div className="fixed inset-0 bg-white opacity-70 flex justify-center items-center z-[1000]">
+                  <CircularProgress size={60} />
+                </div>
+              )}
             </div>
 
             {/* Right Panel */}
@@ -253,6 +287,11 @@ function Login() {
               >
                 Sign Up
               </button>
+              {loading && (
+                <div className="fixed inset-0 bg-white opacity-70 flex justify-center items-center z-[1000]">
+                  <CircularProgress size={60} />
+                </div>
+              )}
             </div>
           </div>
         </div>
