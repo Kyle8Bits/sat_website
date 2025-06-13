@@ -84,7 +84,7 @@ function Login() {
     if (auth) {
       // Delay optional: simulate animation or transition
       const timeout = setTimeout(() => {
-        navigate("/dashboard"); // or your target route
+        navigate("/dashboard/works"); // or your target route
       }, 500); // Optional delay in ms
 
       return () => clearTimeout(timeout); // Cleanup

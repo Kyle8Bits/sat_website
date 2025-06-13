@@ -1,28 +1,25 @@
 import React, {useState, useEffect, useRef} from 'react'
 import SideNavBar from '../../components/ui/SideNavBar'
+import { useNavigate } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
-const handleItemClick = (item: string) => {
-    console.log("Clicked item:", item);
-    // You can update state, navigate, etc.
-  };
 
 function DashboardStaff() {
-  const firstRender = useRef(true);
-  const [window, setWindow] = useState('/dashboard/events')
+  const navigate = useNavigate();
+  
+  const handleItemClick = (item: string) => {
+    navigate(`/dashboard/${item}`);
+  };
 
-  useEffect(() => {
-    firstRender.current = false;
-    if (firstRender.current) {
-      // This is the first render, set the initial window
-      setWindow('/dashboard/events');
-    }
-  }, [window]);
 
   return (
-    <div>
+     <div className="flex h-screen w-screen bg-[#ecf0f1]">
+      {/* Sidebar */}
       <SideNavBar onItemClick={handleItemClick} />
-      <div className="dashboard-content">
-        {/* Add your dashboard content here */}
+
+      {/* Main content area */}
+      <div className="flex-1 overflow-auto p-4">
+        <Outlet />
       </div>
     </div>
   )
