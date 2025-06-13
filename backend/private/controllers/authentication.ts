@@ -127,16 +127,20 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     if (token) {
         jwt.verify(token, secretKey, (err, decoded) => {
             if (err) {
-                res.status(401).send('Invalid token');
+                res.status(401).json({ success: false, message: 'Invalid token' });
             } else {
                 // decoded could be string or JwtPayload
                 const payload = decoded as JwtPayload;
                 req.body = payload.email;
-                console.log(payload);
+                res.status(200).json({
+                    success: true,
+                    message: 'Token is valid',
+                });
+                next();
             }
         });
     } else {
-        res.status(400).send('Token missing');
+        res.status(400).json({ success: false, message: 'No token provided' });
     }
 };
 

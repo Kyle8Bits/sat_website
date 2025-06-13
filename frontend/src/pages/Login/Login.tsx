@@ -14,7 +14,6 @@ const handleLogin = async (email: string, password: string): Promise<any> => {
     });
 
     const data = await response.json();
-    console.log("Server response:", data);
     return data;
   } catch (error) {
     console.error("Login failed:", error);
@@ -67,6 +66,7 @@ function Login() {
     try {
       const result = await handleLogin(email, password);
       if (result?.success) {
+        localStorage.setItem("accessToken", result.accessToken);
         setAuth(true);
         setError("");
       } else {

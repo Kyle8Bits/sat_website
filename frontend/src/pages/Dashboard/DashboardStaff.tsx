@@ -11,6 +11,38 @@ function DashboardStaff() {
     navigate(`/dashboard/${item}`);
   };
 
+  
+const handleAuthentication = async (): Promise<any> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await fetch("http://localhost:1414/dashboard", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+useEffect(() => {
+  handleAuthentication()
+    .then((data) => {
+      if (data.success) {
+        console.log("Authentication successful:", data);
+      } else {
+        console.error("Authentication failed:", data.message);
+        navigate("/login");
+      }
+    })
+    .catch((error) => {
+      console.error("Flow failed:", error);
+    });
+}, []);
 
   return (
      <div className="flex h-screen w-screen bg-[#ecf0f1]">

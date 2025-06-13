@@ -24,6 +24,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />
           <Tour
             school="THPT Thủ Đức"
@@ -32,6 +33,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />{" "}
           <Tour
             school="THPT Thủ Đức"
@@ -40,6 +42,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />{" "}
           <Tour
             school="THPT Thủ Đức"
@@ -48,6 +51,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />
           <Tour
             school="THPT Thủ Đức"
@@ -56,6 +60,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />
           <Tour
             school="THPT Thủ Đức"
@@ -64,6 +69,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />
           <Tour
             school="THPT Thủ Đức"
@@ -72,6 +78,7 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
           />
           <Tour
             school="THPT Thủ Đức"
@@ -80,6 +87,40 @@ function Works() {
             lunch={true}
             group="5"
             status="campus-tour"
+            type="HST"
+          />
+        </div>
+      </div>
+
+      <div className="w-full bg-white shadow rounded-xl text-[28px] font-oswald bold p-4 flex flex-col items-start justify-center gap-4">
+        Upcoming Events
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 place-items-center">
+          <Tour
+            school="THPT Thủ Đức"
+            date="2023-09-15"
+            headcount="30"
+            lunch={true}
+            group="5"
+            status="campus-tour"
+            type="HST"
+          />
+          <Tour
+            school="THPT Thủ Đức"
+            date="2023-09-15"
+            headcount="30"
+            lunch={true}
+            group="5"
+            status="campus-tour"
+            type="HST"
+          />
+          <Tour
+            school="THPT Thủ Đức"
+            date="2023-09-15"
+            headcount="30"
+            lunch={true}
+            group="5"
+            status="idle"
+            type="HST"
           />
         </div>
       </div>

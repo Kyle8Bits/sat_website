@@ -18,6 +18,7 @@ type SidebarItem = {
   path: string;
 };
 
+
 const workbarItems: SidebarItem[] = [
   {
     key: "works",
@@ -49,19 +50,20 @@ const settingBarItems: SidebarItem[] = [
   },
 ];
 
+const handleLogout = () => {
+  localStorage.removeItem("accessToken");
+  window.location.href = "/login"; // Redirect to login page
+};
+
+
+
 function SideNavBar({ onItemClick }: SideNavBarProps) {
-  const [open, setOpen] = React.useState(false);
 
   return (
     <div className="h-full w-fit bg-transparent flex flex-col items-center pl-4 pt-4 pb-4">
-      <aside className="flex flex-col items-center bg-white text-gray-700 shadow h-full rounded-xl">
+      <aside className="flex flex-col items-center bg-white text-black shadow h-full rounded-xl">
         <div className="h-16 flex items-center w-full">
           <a className="h-6 w-6 mx-auto" href="http://svelte.dev/">
-            <img
-              className="h-6 w-6 mx-auto"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-              alt="svelte logo"
-            />
           </a>
         </div>
 
@@ -94,8 +96,9 @@ function SideNavBar({ onItemClick }: SideNavBarProps) {
 
         <div className="mt-auto h-16 flex items-center w-full">
           <button
+            onClick={handleLogout}
             className="h-16 w-10 mx-auto flex flex justify-center items-center
-				w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none"
+				    w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none"
           >
             <svg
               className="h-5 w-5 text-red-700"
