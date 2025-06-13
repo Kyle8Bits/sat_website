@@ -1,6 +1,7 @@
 import express from 'express';
-import { checkAllowedEmail, loginUser, registerUser, submitAllowedEmail, authenticateToken } from './controllers/authentication';
+import { checkAllowedEmail, loginUser, registerUser, submitAllowedEmail } from './controllers/authentication';
 import { checkDuplicatedEmail, checkUsedEmail } from './middleware/checkDuplicatedEmail';
+import { authenticateToken } from './middleware/authenticateToken';
 
 const router = express.Router();
 

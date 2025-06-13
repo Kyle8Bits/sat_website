@@ -115,35 +115,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-    const secretKey = process.env.ACCESS_TOKEN;
-
-    if (!secretKey) {
-        throw new Error("JWT_SECRET is not defined in environment variables");
-    }
-
-    const token = req.headers.authorization?.split(' ')[1]; // e.g., "Bearer <token>"
-
-    if (token) {
-        jwt.verify(token, secretKey, (err, decoded) => {
-            if (err) {
-                res.status(401).json({ success: false, message: 'Invalid token' });
-            } else {
-                // decoded could be string or JwtPayload
-                const payload = decoded as JwtPayload;
-                req.body = payload.email;
-                res.status(200).json({
-                    success: true,
-                    message: 'Token is valid',
-                });
-                next();
-            }
-        });
-    } else {
-        res.status(400).json({ success: false, message: 'No token provided' });
-    }
-};
-
 export const submitAllowedEmail = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email } = req.body;
