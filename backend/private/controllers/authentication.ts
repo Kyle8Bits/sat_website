@@ -1,9 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User, { IUser, UserRole, UserGroup } from '../models/User'; // adjust the import path as needed
 // import { createUser } from './userServices';
 import allowedEmail from '../models/Email';
 import { addEmail } from './adminServices';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const checkAllowedEmail = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -92,14 +95,48 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         }
 
         // You can generate a JWT token here for auth (optional)
+
+        const secretKey = process.env.ACCESS_TOKEN;
+        if (!secretKey) {
+            throw new Error("JWT_SECRET is not defined in environment variables");
+        }
+
+        const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
         res.status(200).json({
             success: true,
             message: 'Login successful',
-            user: { id: user._id, role: user.role }
+            user: { id: user._id, role: user.role },
+            accessToken: token
         });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+    const secretKey = process.env.ACCESS_TOKEN;
+
+    if (!secretKey) {
+        throw new Error("JWT_SECRET is not defined in environment variables");
+    }
+
+    const token = req.headers.authorization?.split(' ')[1]; // e.g., "Bearer <token>"
+
+    if (token) {
+        jwt.verify(token, secretKey, (err, decoded) => {
+            if (err) {
+                res.status(401).send('Invalid token');
+            } else {
+                // decoded could be string or JwtPayload
+                const payload = decoded as JwtPayload;
+                req.body = payload.email;
+                console.log(payload);
+            }
+        });
+    } else {
+        res.status(400).send('Token missing');
     }
 };
 

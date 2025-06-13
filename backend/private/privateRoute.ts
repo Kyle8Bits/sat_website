@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkAllowedEmail, loginUser, registerUser, submitAllowedEmail } from './controllers/authentication';
+import { checkAllowedEmail, loginUser, registerUser, submitAllowedEmail, authenticateToken } from './controllers/authentication';
 import { checkDuplicatedEmail, checkUsedEmail } from './middleware/checkDuplicatedEmail';
 
 const router = express.Router();
@@ -19,6 +19,7 @@ router.get('/user', (req, res) => {
 router.post('/login', loginUser);
 router.post('/register', checkUsedEmail, registerUser);
 router.post('/checkemail', checkAllowedEmail);
-router.post('/submit-email', checkDuplicatedEmail, submitAllowedEmail);
+
+router.post('/submit-email', authenticateToken, checkDuplicatedEmail, submitAllowedEmail); // admin
 
 export default router;
