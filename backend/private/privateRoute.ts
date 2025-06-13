@@ -2,6 +2,7 @@ import express from 'express';
 import { checkAllowedEmail, loginUser, registerUser, submitAllowedEmail } from './controllers/authentication';
 import { checkDuplicatedEmail, checkUsedEmail } from './middleware/checkDuplicatedEmail';
 import { authenticateToken } from './middleware/authenticateToken';
+import { isStaff } from './middleware/rolePermission';
 
 const router = express.Router();
 
@@ -23,6 +24,6 @@ router.post('/login', loginUser);
 router.post('/register', checkUsedEmail, registerUser);
 router.post('/checkemail', checkAllowedEmail);
 
-router.post('/submit-email', authenticateToken, checkDuplicatedEmail, submitAllowedEmail); // admin
+router.post('/submit-email', authenticateToken, isStaff, checkDuplicatedEmail, submitAllowedEmail); // admin
 
 export default router;

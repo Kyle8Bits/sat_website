@@ -17,14 +17,17 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         jwt.verify(token, secretKey, (err, decoded) => {
             if (err) {
                 res.status(401).send('Invalid token');
+                return;
             } else {
                 // decoded could be string or JwtPayload
                 const payload = decoded as JwtPayload;
-                req.body = payload.email;
-                console.log(payload);
+                req.body.email = payload.email;
+                req.body.role = payload.role;
+                next();
             }
         });
     } else {
         res.status(400).send('Token missing');
+        return;
     }
 };

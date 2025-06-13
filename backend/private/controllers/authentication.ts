@@ -88,6 +88,8 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
+        const { role } = user;
+
         const isMatch = await bcrypt.compare(password, user.password); // Call method
         if (!isMatch) {
             res.status(400).json({ success: false, message: 'Incorrect password' });
@@ -101,7 +103,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             throw new Error("JWT_SECRET is not defined in environment variables");
         }
 
-        const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ email, role }, secretKey, { expiresIn: '1h' });
         res.status(200).json({
             success: true,
             message: 'Login successful',
