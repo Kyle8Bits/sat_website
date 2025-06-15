@@ -1,5 +1,6 @@
 import express from 'express';
 import { checkAllowedEmail, loginUser, registerUser, submitAllowedEmail } from './controllers/authentication';
+import { getAllEvent } from './controllers/eventServices';
 import { checkDuplicatedEmail, checkUsedEmail } from './middleware/checkDuplicatedEmail';
 import { authenticateToken } from './middleware/authenticateToken';
 import { isStaff } from './middleware/rolePermission';
@@ -19,6 +20,7 @@ router.get('/user', (req, res) => {
 });
 
 router.get('/dashboard', authenticateToken);
+router.get('/get_event', getAllEvent)
 
 router.post('/login', loginUser);
 router.post('/register', checkUsedEmail, registerUser);
